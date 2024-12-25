@@ -502,55 +502,55 @@ class TapRestApiMsdk(Tap):
                     params,
                     headers,
                 )
-
-            streams.append(
-                DynamicStream(
-                    tap=self,
-                    name=stream["name"],
-                    path=path,
-                    params=params,
-                    headers=headers,
-                    records_path=records_path,
-                    primary_keys=stream.get(
-                        "primary_keys", self.config.get("primary_keys", [])
-                    ),
-                    replication_key=replication_key,
-                    except_keys=except_keys,
-                    next_page_token_path=self.config.get("next_page_token_path"),
-                    pagination_request_style=self.config["pagination_request_style"],
-                    pagination_response_style=self.config["pagination_response_style"],
-                    pagination_page_size=self.config.get("pagination_page_size"),
-                    pagination_results_limit=self.config.get(
-                        "pagination_results_limit"
-                    ),
-                    pagination_next_page_param=self.config.get(
-                        "pagination_next_page_param"
-                    ),
-                    pagination_limit_per_page_param=self.config.get(
-                        "pagination_limit_per_page_param"
-                    ),
-                    pagination_total_limit_param=self.config.get(
-                        "pagination_total_limit_param"
-                    ),
-                    pagination_initial_offset=self.config.get(
-                        "pagination_initial_offset",
-                        1,
-                    ),
-                    offset_records_jsonpath=offset_records_jsonpath,
-                    schema=schema,
-                    start_date=start_date,
-                    source_search_field=source_search_field,
-                    source_search_query=source_search_query,
-                    use_request_body_not_params=self.config.get(
-                        "use_request_body_not_params"
-                    ),
-                    backoff_type=self.config.get("backoff_type"),
-                    backoff_param=self.config.get("backoff_param"),
-                    backoff_time_extension=self.config.get("backoff_time_extension"),
-                    store_raw_json_message=self.config.get("store_raw_json_message"),
-                    authenticator=self._authenticator,
+            if schema:
+                streams.append(
+                    DynamicStream(
+                        tap=self,
+                        name=stream["name"],
+                        path=path,
+                        params=params,
+                        headers=headers,
+                        records_path=records_path,
+                        primary_keys=stream.get(
+                            "primary_keys", self.config.get("primary_keys", [])
+                        ),
+                        replication_key=replication_key,
+                        except_keys=except_keys,
+                        next_page_token_path=self.config.get("next_page_token_path"),
+                        pagination_request_style=self.config["pagination_request_style"],
+                        pagination_response_style=self.config["pagination_response_style"],
+                        pagination_page_size=self.config.get("pagination_page_size"),
+                        pagination_results_limit=self.config.get(
+                            "pagination_results_limit"
+                        ),
+                        pagination_next_page_param=self.config.get(
+                            "pagination_next_page_param"
+                        ),
+                        pagination_limit_per_page_param=self.config.get(
+                            "pagination_limit_per_page_param"
+                        ),
+                        pagination_total_limit_param=self.config.get(
+                            "pagination_total_limit_param"
+                        ),
+                        pagination_initial_offset=self.config.get(
+                            "pagination_initial_offset",
+                            1,
+                        ),
+                        offset_records_jsonpath=offset_records_jsonpath,
+                        schema=schema,
+                        start_date=start_date,
+                        source_search_field=source_search_field,
+                        source_search_query=source_search_query,
+                        use_request_body_not_params=self.config.get(
+                            "use_request_body_not_params"
+                        ),
+                        backoff_type=self.config.get("backoff_type"),
+                        backoff_param=self.config.get("backoff_param"),
+                        backoff_time_extension=self.config.get("backoff_time_extension"),
+                        store_raw_json_message=self.config.get("store_raw_json_message"),
+                        authenticator=self._authenticator,
+                    )
                 )
-            )
 
         return streams
 
@@ -604,18 +604,23 @@ class TapRestApiMsdk(Tap):
 
             headers.update(getattr(self._authenticator, "auth_headers", {}))
             params.update(getattr(self._authenticator, "auth_params", {}))
+        try:
+            r = requests.get(
+                self.config["api_url"] + path,
+                auth=self.http_auth,
+                params=params,
+                headers=headers,
+            )
+        except requests.exceptions.RequestException as e:
+            self.logger.warning(f"Ignoring error during schema fetch: {e}")
+            return None
 
-        r = requests.get(
-            self.config["api_url"] + path,
-            auth=self.http_auth,
-            params=params,
-            headers=headers,
-        )
         if r.ok:
             records = extract_jsonpath(records_path, input=r.json())
         else:
-            self.logger.error(f"Error Connecting, message = {r.text}")
-            raise ValueError(r.text)
+            self.logger.error(f"Ignoring extract json path Connecting, message = {r.status_code}")
+            # raise ValueError(r.text)
+            return None
 
         builder = SchemaBuilder()
         builder.add_schema(th.PropertiesList().to_dict())
