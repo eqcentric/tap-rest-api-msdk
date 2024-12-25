@@ -18,7 +18,7 @@ from tap_makini_rest_api.utils import flatten_json
 class TapRestApiMsdk(Tap):
     """rest-api tap class."""
 
-    name = "tap-rest-api-msdk"
+    name = "tap-makini-rest-api"
 
     # Required for Authentication in tap.py - function APIAuthenticatorBase
     tap_name = name
