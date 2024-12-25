@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "tap-rest-api-msdk"
+name = "tap-makini-rest-api"
 version = "1.4.1"
 description = "`tap-rest-api-msdk` is a Singer tap for REST APIs, built with the Meltano SDK for Singer Taps."
 authors = ["Josh Lloyd", "Fred Reimer"]
@@ -13,8 +13,8 @@ keywords = [
     "tap"
 ]
 license = "Apache 2.0"
-homepage = "https://github.com/Widen/tap-rest-api-msdk"
-repository = "https://github.com/Widen/tap-rest-api-msdk"
+homepage = "https://github.com/eqcentric/tap-rest-api-msdk"
+repository = "https://github.com/eqcentric/tap-rest-api-msdk"
 readme = "README.md"
 
 [tool.poetry.dependencies]
