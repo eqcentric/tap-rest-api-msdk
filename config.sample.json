@@ -1,27 +1,20 @@
 {
-    "pagination_request_style": "jsonpath_paginator",
-    "pagination_response_style": "hateoas_body",
-    "api_url": "https://myexample_fhir_api_url/base_folder",
-    "pagination_page_size": 100,
-    "next_page_token_path": "$.link[?(@.relation=='next')].url",
-    "headers": {
-        "X-API-KEY": "my_secret_hex_string_for_authentication"
-    },
-    "streams": [
+  "pagination_request_style": "jsonpath_paginator",
+  "pagination_response_style": "hateoas_body",
+  "pagination_page_size": 50,
+  "api_url": "https://api.connect.buildingengines.com",
+  "auth_method": "bearer_token",
+  "bearer_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3NzAzNTMxLCJpYXQiOjE3MzUxMTE1MzEsImp0aSI6Ijc1ZTgxNjZlNjgwYjRmZTZhYjEzNDJjM2YxMTBlMzQxIiwidXNlcl9pZCI6IjdiYjcyYzQ5LWI5YWMtNDQyZS04ODhjLTYzZTM5MWFlNzhhYSIsImVtYWlsIjoibWNpbV9wcmlzbV9hcGlfdGVzdF9hZG1pbkBtYWlsaW5hdG9yLmNvbSIsImlzcyI6Imh0dHBzOi8vYXBpLmNvbm5lY3QuYnVpbGRpbmdlbmdpbmVzLmNvbSJ9.GRVTA4sC53-G_LdZ5zpEaEjknDi88z8B2jE_tatYCFs",
+  "next_page_token_path": "$.next",
+  "pagination_limit_per_page_param": "limit",
+  "streams": [
         {
-            "name": "my_sample_table_name",
-            "path": "/ExampleService",
-            "params": {
-                "services-provided-type": "MY_INITIAL_EXAMPLE_SERVICE"
-            },
-            "primary_keys": [
-                "id"
-            ],
-            "records_path": "$.entry[*].resource",
-            "replication_key": "meta_lastUpdated",
-            "start_date": "2001-01-01T00:00:00.00+12:00",            
-            "source_search_field": "last-updated",
-            "source_search_query": "gt$last_run_date"
+          "name": "assets",
+          "path": "/v2/assets/equipment?include=asset_type,equipment_category,custom_fields",
+          "primary_keys": [
+              "id"
+          ],
+          "records_path": "$['results'][*]"
         }
     ]
 }
