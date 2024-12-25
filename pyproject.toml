@@ -53,4 +53,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 # CLI declaration
-tap-rest-api-msdk = 'tap_rest_api_msdk.tap:TapRestApiMsdk.cli'
+#tap-rest-api-msdk = 'tap_makini_rest_api.tap:TapRestApiMsdk.cli'
+tap-makini-rest-api = 'tap_makini_rest_api.tap:TapRestApiMsdk.cli'

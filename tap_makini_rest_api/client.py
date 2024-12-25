@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 from singer_sdk.streams import RESTStream
-from tap_rest_api_msdk.auth import get_authenticator
+from tap_makini_rest_api.auth import get_authenticator
 
 SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 

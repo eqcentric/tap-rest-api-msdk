@@ -17,14 +17,14 @@ from singer_sdk.pagination import (
     SimpleHeaderPaginator,
     SinglePagePaginator,
 )
-from tap_rest_api_msdk.client import RestApiStream
-from tap_rest_api_msdk.pagination import (
+from tap_makini_rest_api.client import RestApiStream
+from tap_makini_rest_api.pagination import (
     RestAPIBasePageNumberPaginator,
     RestAPIHeaderLinkPaginator,
     RestAPIOffsetPaginator,
     SimpleOffsetPaginator,
 )
-from tap_rest_api_msdk.utils import flatten_json, get_start_date
+from tap_makini_rest_api.utils import flatten_json, get_start_date
 
 # Remove commented section to show http_request for debugging
 # import logging

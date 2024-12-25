@@ -12,7 +12,7 @@
 
 ### Testing
 1. create a ``config.json file``, you can copy content from confit.sample.json as an example.
-2. Run the command : ``poetry run tap-rest-api-msdk --config config.json``
+2. Run the command : ``poetry run tap-makini-rest-api --config config.json``
 3. Additional command : ``make test``
 
 

@@ -11,7 +11,7 @@ from singer_sdk.pagination import (
     BasePageNumberPaginator,
     HeaderLinkPaginator,
 )
-from tap_rest_api_msdk.utils import unnest_dict
+from tap_makini_rest_api.utils import unnest_dict
 
 
 class RestAPIBasePageNumberPaginator(BasePageNumberPaginator):
