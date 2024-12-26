@@ -2,7 +2,7 @@ version: 1
 send_anonymous_usage_stats: false
 plugins:
   extractors:
-    - name: ap_makini_rest_api
+    - name: tap_makini_rest_api
       namespace: tap_makini_rest_api
       executable: ./tap-rest-api-msdk.sh
       capabilities:
